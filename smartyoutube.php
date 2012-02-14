@@ -841,7 +841,7 @@ class SmartYouTube_PRO {
 		}
 		return $the_content;
 	} else {
-			$replace = "Silahkan login atau register untuk melihat video ini";
+			$replace = "Silahkan <a href='" . site_url('wp-login.php') . "' target='_blank'>login</a> atau <a href='" . site_url('wp-login.php?action=register') . "' target='_blank'>register</a> untuk melihat video ini";
 			$new_content = str_replace($matches[0][0], $replace, $the_content);		
 			return $new_content;
 			
