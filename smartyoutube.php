@@ -667,7 +667,8 @@ class SmartYouTube_PRO {
 		$context = $side ? 'side' : 'post';
 		
 		preg_match_all( "/((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?youtube\.com\/watch(\?v\=|\/v\/|#!v=)([a-zA-Z0-9\-\_]{11})([^<\s]*))|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?youtu\.be\/([a-zA-Z0-9\-\_]{11}))|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?metacafe\.com\/watch\/([a-zA-Z0-9\-\_]{7})\/([^<^\/\s]*)([\/])?)|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?vimeo\.com\/([a-zA-Z0-9\-\_]{8})([\/])?)|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?liveleak\.com\/view(\?i\=)([a-zA-Z0-9\-\_]*))|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?facebook\.com\/video\/video.php\?v\=([a-zA-Z0-9\-\_]*))|((http(vp|vhp)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?youtube\.com\/(view_play_list\?p\=|playlist\?list\=)([a-zA-Z0-9\-\_]{18})([^<\s]*))/", $the_content, $matches, PREG_SET_ORDER );
-		
+	
+	if (is_user_logged_in()){	
 		foreach ( $matches as $match ) {
 			if ( $match[1] != '' ) {
 				if ( 'on' == $this->options['wiziapp'] ) {
@@ -763,6 +764,7 @@ class SmartYouTube_PRO {
 				}
 			}
 		}
+	
 		
 		/*preg_match_all( "/(http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?youtu\.be\/([a-zA-Z0-9\-\_]{11})/", $the_content, $matches, PREG_SET_ORDER );
 		foreach ( $matches as $match ) {
@@ -837,8 +839,15 @@ class SmartYouTube_PRO {
 		if ( $this->first_post_on_archive ) {
 			$this->first_post_on_archive = false;
 		}
-		
 		return $the_content;
+	} else {
+			$replace = "Silahkan login atau register untuk melihat video ini";
+			$new_content = str_replace($matches[0][0], $replace, $the_content);		
+			return $new_content;
+			
+	}
+	
+	
 	}
 	
 	function check_excerpt( $the_content ) {
@@ -1045,6 +1054,7 @@ EOT;
 				$yte_tag = <<<EOT
 <span class="youtube"><iframe class="youtube-player" src="$video_url" width="$width" height="$height" frameborder="0" allowfullscreen></iframe></span>
 EOT;
+			
 			} elseif ( $valid == 'off' || strpos( $_SERVER['HTTP_USER_AGENT'], 'iPhone' ) === TRUE || strpos( $_SERVER['HTTP_USER_AGENT'], 'iPod' ) === TRUE || strpos( $_SERVER['HTTP_USER_AGENT'], 'iPad' ) === TRUE ) {
 				if ( $context == 'post' && $colorbox == 'on' && is_singular() ) {
 					$img_url = htmlspecialchars( "http://img.youtube.com/vi/$file/0.jpg" );
@@ -1500,7 +1510,7 @@ function syt_show_thumb( $post_id ) {
 	preg_match_all( "/(http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?facebook\.com\/video\/video.php\?v\=([a-zA-Z0-9\-\_]*)/", $content, $matches['facebook.com'], PREG_SET_ORDER );
 	
 	global $smart_youtube_pro;
-	
+
 	if ( isset( $matches['youtube.com'][0] ) ) {
 		if ( ( $matches['youtube.com'][0][1] == 'http://' && $smart_youtube_pro->options['http'] == 'on' ) || ( $matches['youtube.com'][0][1] == '' && $smart_youtube_pro->options['www'] == 'on' ) ) {
 			$matches['youtube.com'][0][0] = str_replace( $matches['youtube.com'][0][0], $smart_youtube_pro->tag_youtube( 'excerpt', $matches['youtube.com'][0][5], 'v', $matches['youtube.com'][0][6] ), $matches['youtube.com'][0][0] );
@@ -1557,6 +1567,7 @@ function syt_show_thumb( $post_id ) {
 EOT;
 		$result = str_replace( '{video}', $yte_tag, html_entity_decode( $template ) );
 	}
+
 	if ( isset( $result ) ) {
 		return $result;
 	}
