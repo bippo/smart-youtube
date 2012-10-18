@@ -668,7 +668,7 @@ class SmartYouTube_PRO {
 		
 		preg_match_all( "/((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?youtube\.com\/watch(\?v\=|\/v\/|#!v=)([a-zA-Z0-9\-\_]{11})([^<\s]*))|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?youtu\.be\/([a-zA-Z0-9\-\_]{11}))|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?metacafe\.com\/watch\/([a-zA-Z0-9\-\_]{7})\/([^<^\/\s]*)([\/])?)|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?vimeo\.com\/([a-zA-Z0-9\-\_]{8})([\/])?)|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?liveleak\.com\/view(\?i\=)([a-zA-Z0-9\-\_]*))|((http(v|vh|vhd)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?facebook\.com\/video\/video.php\?v\=([a-zA-Z0-9\-\_]*))|((http(vp|vhp)?:\/\/)?([a-zA-Z0-9\-\_]+\.|)?youtube\.com\/(view_play_list\?p\=|playlist\?list\=)([a-zA-Z0-9\-\_]{18})([^<\s]*))/", $the_content, $matches, PREG_SET_ORDER );
 	
-	if (is_user_logged_in()){	
+// 	if (is_user_logged_in()){	
 		foreach ( $matches as $match ) {
 			if ( $match[1] != '' ) {
 				if ( 'on' == $this->options['wiziapp'] ) {
@@ -840,12 +840,12 @@ class SmartYouTube_PRO {
 			$this->first_post_on_archive = false;
 		}
 		return $the_content;
-	} else {
-			$replace = "Silahkan <a href='" . site_url('wp-login.php') . "' target='_blank'><span style='font-weight:bold;'>login</span></a> atau <a href='" . site_url('wp-login.php?action=register') . "' target='_blank'><span style='font-weight:bold;'>register</span></a> untuk melihat video ini";
-			$new_content = str_replace($matches[0][0], $replace, $the_content);		
-			return $new_content;
+// 	} else {
+// 			$replace = "Silahkan <a href='" . site_url('wp-login.php') . "' target='_blank'><span style='font-weight:bold;'>login</span></a> atau <a href='" . site_url('wp-login.php?action=register') . "' target='_blank'><span style='font-weight:bold;'>register</span></a> untuk melihat video ini";
+// 			$new_content = str_replace($matches[0][0], $replace, $the_content);		
+// 			return $new_content;
 			
-	}
+// 	}
 	
 	
 	}
